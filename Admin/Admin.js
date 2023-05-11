@@ -2,7 +2,7 @@ $(function () {
   //
   loadComponent();
   //
-  loadProducttoTable();
+  loadProductToTable();
   //
 });
 
@@ -41,7 +41,7 @@ function handleShowCategory(params) {
 // });
 
 // function to load data to table
-function loadProducttoTable(params) {
+function loadProductToTable() {
   // reset table before load data
   $("#tbProductTable").empty();
   // create product by loop
@@ -72,7 +72,7 @@ function loadProducttoTable(params) {
   loadProduct();
 }
 // declare listProduct[]
-listProduct = [];
+var listProduct = [];
 
 // function handle create new product
 function handleCreateNewProduct() {
@@ -165,13 +165,110 @@ function loadProduct() {
                             <td>${listProduct[index].manufacturerId}</td>
                             <td>${listProduct[index].categoryId}</td>
                             <td>
-                                <button type="button" class="btn btn-warning">Edit</button>
+                                <button type="button" class="btn btn-warning"
+                                 data-toggle="modal" data-target="#myUpdateModal"
+                                 onClick="handleEditProduct(${listProduct[index].id})">Edit</button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger">Delete</button>
+                                <button type="button" class="btn btn-danger" onClick="handleDeleteProduct(${listProduct[index].id})">Delete</button>
                             </td>
                         </tr> 
 
     `);
+  }
+}
+
+// function delete product
+function handleDeleteProduct(idProductDelete) {
+  // alert a box to confirm yes or no delete
+  var confirmDelete = confirm("Bạn muốn xóa sản phẩm này ?");
+
+  if (confirmDelete) {
+    // delete
+    listProduct.splice(idProductDelete);
+    // re-save listProduct on localStorage
+    localStorage.setItem("listProduct", JSON.stringify(listProduct));
+    // re-load product on table
+    loadProducttoTable();
+  }
+}
+
+// function update product
+function handleEditProduct(idProductUpdate) {
+  // fill data into textfield of update modal
+  fillData(idProductUpdate);
+}
+
+// function to fill data into textfield of update modal
+function fillData(idProduct) {
+  listProduct = [];
+  // get data from localStorage
+  var listProductLocal = JSON.parse(localStorage.getItem("listProduct"));
+  // save to listProduct[] to use
+  listProduct = listProductLocal;
+  console.log(listProduct);
+  // loop to find data of product want to update
+  for (let index = 0; index < listProduct.length; index++) {
+    if (listProduct[index].id == idProduct) {
+      // set value for textfield of update modal
+      $("#Id_Update").val(idProduct);
+      $("#Name_Update").val(listProduct[index].name);
+      $("#Price_Update").val(listProduct[index].price);
+      $("#Info_Update").val(listProduct[index].infor);
+      $("#Detail_Update").val(listProduct[index].detail);
+      $("#Star_Update").val(listProduct[index].ratingStar);
+      // $("#Image_Update").val(listProduct[index].imageName);
+      $("#Manufacturer_Update").val(listProduct[index].manufacturerId);
+      $("#Category_Update").val(listProduct[index].categoryId);
+    }
+  }
+}
+
+// function reset data on textfield of update form
+function handleResetUpdateForm() {
+  $("#Id_Update").val("");
+  $("#Name_Update").val("");
+  $("#Price_Update").val("");
+  $("#Info_Update").val("");
+  $("#Detail_Update").val("");
+  $("#Star_Update").val("");
+  $("#Manufacturer_Update").val(0);
+  $("#Category_Update").val(0);
+}
+
+// function to update product
+function handleUpdateProduct() {
+  // get information from update modal
+  var u_Id = $("#Id_Update").val();
+  var u_Name = $("#Name_Update").val();
+  var u_Price = $("#Price_Update").val();
+  var u_Info = $("#Info_Update").val();
+  var u_Detail = $("#Detail_Update").val();
+  var u_Star = $("#Star_Update").val();
+  var u_Image = getImageName($("#Image_Update").val());
+  var u_Manufacturer = $("#Manufacturer_Update").val();
+  var u_Category = $("#Category_Update").val();
+
+  for (let index = 0; index < listProduct.length; index++) {
+    if (listProduct[index].id == u_Id) {
+      listProduct[index].name = u_Name;
+      listProduct[index].price = u_Price;
+      listProduct[index].infor = u_Info;
+      listProduct[index].detail = u_Detail;
+      listProduct[index].ratingStar = u_Star;
+      listProduct[index].imageName = u_Image;
+      listProduct[index].manufacturerId = u_Manufacturer;
+      listProduct[index].categoryId = u_Category;
+
+      // save to localStorage
+      localStorage.setItem("listProduct", JSON.stringify(listProduct));
+      
+      // close modal
+      $("#myUpdateModal").modal("hide");
+      $(".modal-backdrop").remove();
+      // re-load table
+      loadProductToTable();
+
+    }
   }
 }
