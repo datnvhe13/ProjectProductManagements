@@ -33,7 +33,8 @@ function submit() {
     // localStorage.setItem("account2", JSON.stringify(newAccount));
     // localStorage.setItem("account3", JSON.stringify(newAccount));
     alert("Register successfully !");
-    resetForm();
+    window.location.href = "http://127.0.0.1:5500/Login/LoginForm.html";
+    // resetForm();
   }
 }
 

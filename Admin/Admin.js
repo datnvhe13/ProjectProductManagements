@@ -294,11 +294,10 @@ function handleToSearch() {
   // clear table
   //  $("#tbProductTable").clear();
   // $("#tbProductTable").remove();
-
+  $("#tbProductTable").empty();
   // load to table
   for (let index = 0; index < listProduct.length; index++) {
     if (listProduct[index].name.includes(searchValue)) {
-      // $("#tbProductTable").remove();
       $("#tbProductTable").append(`
     <tr>
                             <td>${listProduct[index].id}</td>
@@ -321,6 +320,9 @@ function handleToSearch() {
                         </tr> 
 
     `);
+    // case : input is empty
+    } else if (searchValue == ""){
+      loadProduct();
     }
   }
 }
