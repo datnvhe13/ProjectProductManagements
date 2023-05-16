@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container" style="width: 400px; margin-top: 70px;">
+  <h2>Register System</h2>
+    <!-- name -->
+    <div class="form-group">
+      <label>Full Name:</label>
+      <input type="text" class="form-control" id="fullname" placeholder="Enter your name" />
+    </div>
+    <!-- email -->
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" />
+    </div>
+    <!-- pass -->
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" />
+    </div>
+    <!-- re-pass -->
+    <div class="form-group">
+      <label for="pwd">Confirm Password:</label>
+      <input type="password" class="form-control" id="re-pwd" placeholder="Enter re-password" />
+    </div>
+    <!-- Birthday -->
+    <div class="form-group">
+      <label for="pwd">Birthday:</label>
+      <input type="date" class="form-control" id="birthday" placeholder="Enter birthday" />
+    </div>
+
+    <!-- register button -->
+    <button type="submit" class="btn btn-default" style="background-color: green; color: white;"
+    onclick="submit()"
+    >Submit</button>
+    <!-- reset button -->
+    <button type="reset" class="btn btn-default" 
+    style="background-color: green; color: white;"
+    onclick="resetForm()"
+    >Reset</button>
+
+</div>
+
+
+<script type="text/javascript" src="./Register.js"></script>
+
+</body>
+</html>
