@@ -8,11 +8,11 @@
                 <div class="panel-body">
                     <!-- input to search -->
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                        <input type="text" class="form-control" value="" />
+                        <input type="text" id="inputSearch" class="form-control" value="" />
                     </div>
                     <!-- search button -->
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                        <button type="button" class="btn btn-primary">Search</button>
+                        <button type="button" class="btn btn-primary" onclick="handleToSearch()">Search</button>
                     </div>
                 </div>
             </div>
@@ -162,7 +162,7 @@
                     <!-- Id -->
                     <div class="form-group">
                         <label for="">Id</label>
-                        <input type="text" class="form-control" id="Id_Update">
+                        <input type="text" class="form-control" id="Id_Update" readonly>
                     </div>
                     <!-- name -->
                     <div class="form-group">
@@ -192,7 +192,7 @@
                     <!-- Image -->
                     <div class="form-group">
                         <label for="">Image</label>
-                        <input type="file" class="form-control" id="Image_Update" />
+                        <input type="file" class="form-control" id="Image_Update" required />
                     </div>
                     <!-- manufacturer -->
                     <div class="form-group">

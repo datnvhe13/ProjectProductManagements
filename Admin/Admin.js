@@ -2,12 +2,12 @@ $(function () {
   //
   loadComponent();
   //
-  loadProductToTable();
+  loadProduct();
   //
 });
 
 // function to load components
-function loadComponent(params) {
+function loadComponent() {
   $(".MenuSection").load("./Menu.html");
   $(".SidebarSection").load("./Sidebar.html");
   // $(".ContentProduct").load("./ContentProduct.html");
@@ -40,39 +40,8 @@ function handleShowCategory(params) {
 //     }, 5000);
 // });
 
-// function to load data to table
-function loadProductToTable() {
-  // reset table before load data
-  $("#tbProductTable").empty();
-  // create product by loop
-  for (let index = 0; index < 6; index++) {
-    $("#tbProductTable").append(`
-        <tr>
-                                <td>1</td>
-                                <td>Samsung Galaxy S22 Ultra 5G</td>
-                                <td>30.090.000đ</td>
-                                <td>6.9 inches, Chip Media Tek Helio G85 (12nm) mạnh mẽ, Ram 4G, Pin
-                                    7000 mAh</td>
-                                <td>ProductDetail1</td>
-                                <td>2</td>
-                                <td>ImgMobile5.png</td>
-                                <td>APPLE</td>
-                                <td>TABLET</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning">Edit</button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger">Delete</button>
-                                </td>
-                            </tr> 
-
-        `);
-  }
-  // load data from local Storage to table
-  loadProduct();
-}
 // declare listProduct[]
-var listProduct = [];
+// var listProduct = [];
 
 // function handle create new product
 function handleCreateNewProduct() {
@@ -86,7 +55,10 @@ function handleCreateNewProduct() {
   var p_Image = getImageName($("#Image").val());
   var p_Manufacturer = $("#Manufacturer").val();
   var p_Category = $("#Category").val();
-
+  //
+  var listProduct = JSON.parse(localStorage.getItem("listProduct"))
+    ? JSON.parse(localStorage.getItem("listProduct"))
+    : [];
   // create a object
   var productNew = {
     id: p_Id,
@@ -102,17 +74,20 @@ function handleCreateNewProduct() {
 
   // save to list to use
   listProduct.push(productNew);
-  console.log(listProduct);
+  // console.log(listProduct);
 
   // Save to localStorage
   localStorage.setItem("listProduct", JSON.stringify(listProduct));
 
-  // reload list product in table
-  loadProduct();
-
   // close form add new
   $("#close").click();
   $(".modal-backdrop").remove();
+
+  //$("#tbProductTable").reload();
+  // reload list product in table
+  //  loadProduct();
+  location.reload();
+  // $("./AdminPage.html").reload();
 }
 
 // function to reset form add new product
@@ -137,7 +112,7 @@ function getImageName(pathImage) {
   return imageName;
 }
 
-// function load data from loacalStorage to table
+// function load data from localStorage to table
 function loadProduct() {
   //  listProduct
   let listProduct = [];
@@ -151,7 +126,7 @@ function loadProduct() {
     listProduct = listProductLocalStorage;
   }
 
-  // addnew
+  // load to table
   for (let index = 0; index < listProduct.length; index++) {
     $("#tbProductTable").append(`
     <tr>
@@ -185,22 +160,49 @@ function handleDeleteProduct(idProductDelete) {
 
   if (confirmDelete) {
     // delete
-    listProduct.splice(idProductDelete);
+    // listProduct.splice(idProductDelete);
     // re-save listProduct on localStorage
-    localStorage.setItem("listProduct", JSON.stringify(listProduct));
+    // localStorage.setItem("listProduct", JSON.stringify(listProduct));
     // re-load product on table
-    loadProducttoTable();
+    // loadProduct();
+
+    listProduct = [];
+    // get data from localStorage
+    var listProductLocal = JSON.parse(localStorage.getItem("listProduct"));
+    // save to listProduct[] to use
+    listProduct = listProductLocal;
+    // check
+    // console.log(listProduct.length);
+    // loop
+    for (let index = 0; index < listProduct.length; index++) {
+      if (listProduct[index].id == idProductDelete) {
+        // console.log(idProductDelete);
+        listProduct.splice(index, 1);
+        // re-save listProduct on localStorage
+        localStorage.setItem("listProduct", JSON.stringify(listProduct));
+        // re-load product on table
+        // loadProduct();
+        location.reload();
+      }
+    }
+
+    // listProduct.splice(idProductDelete);
+    // re-save listProduct on localStorage
+    // localStorage.setItem("listProduct", JSON.stringify(listProduct));
+    // re-load product on table
+    // loadProduct();
+    //  console.log(listProduct);
   }
 }
 
 // function update product
 function handleEditProduct(idProductUpdate) {
   // fill data into textfield of update modal
-  fillData(idProductUpdate);
+  fillDataToModalUpdate(idProductUpdate);
 }
 
 // function to fill data into textfield of update modal
-function fillData(idProduct) {
+function fillDataToModalUpdate(idProduct) {
   listProduct = [];
   // get data from localStorage
   var listProductLocal = JSON.parse(localStorage.getItem("listProduct"));
@@ -217,7 +219,8 @@ function fillData(idProduct) {
       $("#Info_Update").val(listProduct[index].infor);
       $("#Detail_Update").val(listProduct[index].detail);
       $("#Star_Update").val(listProduct[index].ratingStar);
-      // $("#Image_Update").val(listProduct[index].imageName);
+      // $("#Image_Update").val(getImageName(listProduct[index].imageName));
+      // console.log(listProduct[index].imageName);
       $("#Manufacturer_Update").val(listProduct[index].manufacturerId);
       $("#Category_Update").val(listProduct[index].categoryId);
     }
@@ -262,13 +265,62 @@ function handleUpdateProduct() {
 
       // save to localStorage
       localStorage.setItem("listProduct", JSON.stringify(listProduct));
-      
+
       // close modal
       $("#myUpdateModal").modal("hide");
       $(".modal-backdrop").remove();
       // re-load table
-      loadProductToTable();
+      // loadProduct();
+      location.reload();
+    }
+  }
+}
 
+// function to search by name product
+function handleToSearch() {
+  // get search value
+  var searchValue = $("#inputSearch").val();
+  //  listProduct
+  let listProduct = [];
+  // get data from localStorage to use
+  // check data in localStorage
+  if (localStorage && localStorage.getItem("listProduct")) {
+    var listProductLocalStorage = JSON.parse(
+      localStorage.getItem("listProduct")
+    );
+    // save data from loacalStorage to use
+    listProduct = listProductLocalStorage;
+  }
+  // clear table
+  //  $("#tbProductTable").clear();
+  // $("#tbProductTable").remove();
+
+  // load to table
+  for (let index = 0; index < listProduct.length; index++) {
+    if (listProduct[index].name.includes(searchValue)) {
+      // $("#tbProductTable").remove();
+      $("#tbProductTable").append(`
+    <tr>
+                            <td>${listProduct[index].id}</td>
+                            <td>${listProduct[index].name}</td>
+                            <td>${listProduct[index].price}</td>
+                            <td>${listProduct[index].infor}</td>
+                            <td>${listProduct[index].detail}</td>
+                            <td>${listProduct[index].ratingStar}</td>
+                            <td>${listProduct[index].imageName}</td>
+                            <td>${listProduct[index].manufacturerId}</td>
+                            <td>${listProduct[index].categoryId}</td>
+                            <td>
+                                <button type="button" class="btn btn-warning"
+                                 data-toggle="modal" data-target="#myUpdateModal"
+                                 onClick="handleEditProduct(${listProduct[index].id})">Edit</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" onClick="handleDeleteProduct(${listProduct[index].id})">Delete</button>
+                            </td>
+                        </tr> 
+
+    `);
     }
   }
 }
