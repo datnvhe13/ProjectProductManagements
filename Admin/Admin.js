@@ -14,22 +14,22 @@ function loadComponent() {
 }
 
 // function to process when click on "menu item Product"
-function handleShowProduct(params) {
+function handleShowProduct() {
   $(".ContentProduct").load("./ContentProduct.html");
 }
 
 // function to process when click on "menu item manufacturer"
-function handleShowManufacturer(params) {
+function handleShowManufacturer() {
   $(".ContentProduct").load("./ContentManufacturer.html");
 }
 
 // function to process when click on "menu item account"
-function handleShowAccount(params) {
+function handleShowAccount() {
   $(".ContentProduct").load("./ContentAccount.html");
 }
 
 // function to process when click on "menu item category"
-function handleShowCategory(params) {
+function handleShowCategory() {
   $(".ContentProduct").load("./ContentCategory.html");
 }
 
@@ -87,6 +87,8 @@ function handleCreateNewProduct() {
   // reload list product in table
   //  loadProduct();
   location.reload();
+  
+  alert("Add new successfully !");
   // $("./AdminPage.html").reload();
 }
 
@@ -183,6 +185,7 @@ function handleDeleteProduct(idProductDelete) {
         // re-load product on table
         // loadProduct();
         location.reload();
+        alert("Delete successfully !");
       }
     }
 
@@ -271,7 +274,9 @@ function handleUpdateProduct() {
       $(".modal-backdrop").remove();
       // re-load table
       // loadProduct();
+      alert("Update successfully !");
       location.reload();
+
     }
   }
 }

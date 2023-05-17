@@ -1,4 +1,4 @@
-function submit() {
+function register() {
   // get value from registerForm.html
   var f_name = $("#fullname").val();
   var f_email = $("#email").val();
@@ -25,7 +25,10 @@ function submit() {
       rePass: f_confirmPassword,
       birthDate: f_birthday,
     };
-    // let listAccounts = [];
+    
+    // var listAccounts = JSON.parse(localStorage.getItem("account"))
+    // ? JSON.parse(localStorage.getItem("account"))
+    // : [];
     // listAccounts.push(newAccount);
 
     // save to localStorage
@@ -45,4 +48,5 @@ function resetForm() {
   $("#pwd").val("");
   $("#re-pwd").val("");
   $("#birthday").val("");
+  // $("#registerForm").trigger("reset");
 }
