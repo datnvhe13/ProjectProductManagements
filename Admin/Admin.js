@@ -33,16 +33,6 @@ function handleShowCategory() {
   $(".ContentProduct").load("./ContentCategory.html");
 }
 
-// function to set timout for modal
-// $("#modal-id").modal("show").on("shown", function () {
-//     window.setTimeout(function () {
-//         $("#modal-id").modal("hide");
-//     }, 5000);
-// });
-
-// declare listProduct[]
-// var listProduct = [];
-
 // function handle create new product
 function handleCreateNewProduct() {
   // get data from user
@@ -71,10 +61,8 @@ function handleCreateNewProduct() {
     manufacturerId: p_Manufacturer,
     categoryId: p_Category,
   };
-
   // save to list to use
   listProduct.push(productNew);
-  // console.log(listProduct);
 
   // Save to localStorage
   localStorage.setItem("listProduct", JSON.stringify(listProduct));
@@ -83,13 +71,9 @@ function handleCreateNewProduct() {
   $("#close").click();
   $(".modal-backdrop").remove();
 
-  //$("#tbProductTable").reload();
-  // reload list product in table
   //  loadProduct();
   location.reload();
-  
   alert("Add new successfully !");
-  // $("./AdminPage.html").reload();
 }
 
 // function to reset form add new product
@@ -161,20 +145,12 @@ function handleDeleteProduct(idProductDelete) {
   var confirmDelete = confirm("Bạn muốn xóa sản phẩm này ?");
 
   if (confirmDelete) {
-    // delete
-    // listProduct.splice(idProductDelete);
-    // re-save listProduct on localStorage
-    // localStorage.setItem("listProduct", JSON.stringify(listProduct));
-    // re-load product on table
-    // loadProduct();
-
+   
     listProduct = [];
     // get data from localStorage
     var listProductLocal = JSON.parse(localStorage.getItem("listProduct"));
     // save to listProduct[] to use
     listProduct = listProductLocal;
-    // check
-    // console.log(listProduct.length);
     // loop
     for (let index = 0; index < listProduct.length; index++) {
       if (listProduct[index].id == idProductDelete) {
@@ -189,12 +165,6 @@ function handleDeleteProduct(idProductDelete) {
       }
     }
 
-    // listProduct.splice(idProductDelete);
-    // re-save listProduct on localStorage
-    // localStorage.setItem("listProduct", JSON.stringify(listProduct));
-    // re-load product on table
-    // loadProduct();
-    //  console.log(listProduct);
   }
 }
 
